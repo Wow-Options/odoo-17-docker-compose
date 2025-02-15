@@ -10,6 +10,8 @@ services:
     restart: always             # run as a service
     volumes:
         - ./postgresql:/var/lib/postgresql/data
+    networks:
+      - my-main-net
 
   odoo17:
     image: odoo:17
@@ -30,6 +32,13 @@ services:
       #- /etc/localtime:/etc/localtime:ro
       # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
+      - ./enterprise-addons:/mnt/enterprise-addons
+      - ./extra-addons:/mnt/extra-addons
       - ./etc:/etc/odoo
+    networks:
+      - my-main-net
     restart: always             # run as a service
     
+networks:
+my-main-net:
+  external: true
